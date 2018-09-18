@@ -10,6 +10,9 @@ function install_cuda_linux()
     sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
     sudo apt-get update
     sudo apt-get install cuda
+    # wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
+    # chmod +x cuda_*_linux-run
+    # sudo ./cuda_*_linux-run --silent --toolkit
 }
 
 
@@ -54,20 +57,13 @@ if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
-    pip install --upgrade pip
-    pip uninstall pycurl
-    export PYCURL_SSL_LIBRARY=nss
-    pip install --compile pycurl
+
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app;
     cp $(readlink catboost/app/catboost) catboost-darwin;
     python ci/webdav_upload.py catboost-darwin
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
-    pip install --upgrade pip
-    pip uninstall pycurl
-    export PYCURL_SSL_LIBRARY=nss
-    pip install --compile pycurl
 
     cd catboost/R-package
 
