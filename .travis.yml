@@ -72,4 +72,3 @@ matrix:
       language: cpp
       env: CB_BUILD_AGENT='R-clang-linux-x86_64-release'
       script: ~/build/${TRAVIS_REPO_SLUG}/ci/travis/script.sh
-

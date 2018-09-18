@@ -9,7 +9,7 @@ function install_cuda_linux()
     wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb -O cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
     sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
     sudo apt-get update
-    sudo apt-get install cuda    
+    sudo apt-get install cuda
 }
 
 
@@ -37,6 +37,7 @@ if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
+     ls /home/travis/virtualenv
      ln -s /home/travis/virtualenv/python3.5.5/bin/python-config /home/travis/virtualenv/python3.5.5/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
@@ -81,4 +82,3 @@ if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_A
     tar -cvzf catboost-R-$(uname).tgz catboost
     python ../../ci/webdav_upload.py catboost-R-*.tgz
 fi
-
