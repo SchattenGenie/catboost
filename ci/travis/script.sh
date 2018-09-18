@@ -6,12 +6,22 @@ fi
 
 function install_cuda_linux()
 {
-    wget --quiet https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
-    chmod +x cuda_*_linux-run
-    sudo ./cuda_*_linux-run --toolkit # --silent
-    export CUDA_HOME=/usr/local/cuda-9.0
-    export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
-    export PATH=${CUDA_HOME}/bin:${PATH}
+    # wget --quiet https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
+    # chmod +x cuda_*_linux-run
+    # sudo ./cuda_*_linux-run --toolkit # --silent
+    # export CUDA_HOME=/usr/local/cuda-9.0
+    # export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
+    # export PATH=${CUDA_HOME}/bin:${PATH}
+
+    CUDA_REPO_PKG="cuda-repo-ubuntu1604-9-0-local_9.0.176-1_amd64-deb"
+    wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/${CUDA_REPO_PKG}
+    sudo dpkg -i ${CUDA_REPO_PKG}
+    sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
+    sudo apt-get update
+    sudo apt-get -y install cuda-9-0
+    export PATH=${PATH}:/usr/local/cuda-9.0/bin
+    export CUDA_HOME=${CUDA_HOME}:/usr/local/cuda:/usr/local/cuda-9.0
+    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64
 }
 
 
