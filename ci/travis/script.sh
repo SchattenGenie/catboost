@@ -38,10 +38,10 @@ fi
 
 if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
      ls /home/travis/virtualenv
-     ln -s /home/travis/virtualenv/python3.5.5/bin/python-config /home/travis/virtualenv/python3.5.5/bin/python3-config;
+     ln -s /home/travis/virtualenv/python3.5.6/bin/python-config /home/travis/virtualenv/python3.5.6/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
-     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.5.5/bin/python3-config;
+     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.5.6/bin/python3-config;
      python ../../ci/webdav_upload.py *.whl
 fi
 
@@ -54,12 +54,21 @@ if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
+    pip install --upgrade pip
+    pip uninstall pycurl
+    export PYCURL_SSL_LIBRARY=nss
+    pip install --compile pycurl
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app;
     cp $(readlink catboost/app/catboost) catboost-darwin;
     python ci/webdav_upload.py catboost-darwin
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
+    pip install --upgrade pip
+    pip uninstall pycurl
+    export PYCURL_SSL_LIBRARY=nss
+    pip install --compile pycurl
+
     cd catboost/R-package
 
     mkdir catboost
