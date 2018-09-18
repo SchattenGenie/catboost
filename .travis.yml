@@ -24,8 +24,8 @@ before_script: |
     unset CC
     unset CXX
     sudo apt-get install -y libboost-all-dev
-    pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
-
+    # pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+    pip install webdavclient || sudo pip2 install webdavclient
 matrix:
   include:
     - os: linux
