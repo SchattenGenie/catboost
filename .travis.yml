@@ -24,9 +24,8 @@ before_script: |
     #
     unset CC
     unset CXX
-    pip install --upgrade pip || pip2 install --upgrade pip2
-    pip uninstall pycurl && export PYCURL_SSL_LIBRARY=openssl && pip install --compile pycurl || pip2 uninstall pycurl && export PYCURL_SSL_LIBRARY=openssl && pip2 install --compile pycurl
-
+    pip install --upgrade pip || sudo pip2 install --upgrade pip2
+    pip uninstall pycurl && export PYCURL_SSL_LIBRARY=gnutls && pip install --compile pycurl || sudo pip2 uninstall pycurl && export PYCURL_SSL_LIBRARY=gnutls && sudo pip2 install --compile pycurl
 
     pip install webdavclient || sudo pip2 install webdavclient
 
