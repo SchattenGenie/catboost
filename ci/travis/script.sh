@@ -6,19 +6,19 @@ fi
 
 function install_cuda_linux()
 {
-    wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb -O cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
-    sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
-    sudo apt-get update
-    sudo apt-get install cuda
-    # wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
-    # chmod +x cuda_*_linux-run
-    # sudo ./cuda_*_linux-run --silent --toolkit
+    # wget https://developer.nvidia.com/compute/cuda/8.0/Prod2/local_installers/cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64-deb -O cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
+    # sudo dpkg -i cuda-repo-ubuntu1404-8-0-local-ga2_8.0.61-1_amd64.deb
+    # sudo apt-get update
+    # sudo apt-get install cuda
+    wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
+    chmod +x cuda_*_linux-run
+    sudo ./cuda_*_linux-run --silent --toolkit
 }
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
     install_cuda_linux;
-    ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-8.0 -DNO_DEBUGINFO;
+    ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
     python ci/webdav_upload.py catboost-cuda-linux
 fi
@@ -26,7 +26,7 @@ fi
 if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
      install_cuda_linux;
      cd catboost/python-package;
-     python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 ;
+     python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 ;
      python ../../ci/webdav_upload.py *.whl
 fi
 
@@ -35,7 +35,7 @@ if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
      ln -s /home/travis/virtualenv/python3.4.6/bin/python-config /home/travis/virtualenv/python3.4.6/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
-     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.4.6/bin/python3-config;
+     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.4.6/bin/python3-config;
      python ../../ci/webdav_upload.py *.whl
 fi
 
@@ -44,7 +44,7 @@ if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
      ln -s /home/travis/virtualenv/python3.5.6/bin/python-config /home/travis/virtualenv/python3.5.6/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
-     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.5.6/bin/python3-config;
+     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.5.6/bin/python3-config;
      python ../../ci/webdav_upload.py *.whl
 fi
 
@@ -52,7 +52,7 @@ if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
      ln -s /home/travis/virtualenv/python3.6.3/bin/python-config /home/travis/virtualenv/python3.6.3/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
-     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-8.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.6.3/bin/python3-config;
+     python3 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 -DPYTHON_CONFIG=/home/travis/virtualenv/python3.6.3/bin/python3-config;
      python ../../ci/webdav_upload.py *.whl
 fi
 
