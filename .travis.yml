@@ -24,10 +24,11 @@ before_script: |
     #
     unset CC
     unset CXX
-    sudo pip install --upgrade pip || sudo pip2 install --upgrade pip2
-    pip uninstall -y pycurl && export PYCURL_SSL_LIBRARY=gnutls && pip install --compile pycurll=7.43.0.1 || sudo pip2 uninstall -y pycurl && export PYCURL_SSL_LIBRARY=gnutls && sudo pip2 install --compile pycurl=7.43.0.1
+    # sudo pip install --upgrade pip || sudo pip2 install --upgrade pip2
+    # pip uninstall -y pycurl && export PYCURL_SSL_LIBRARY=gnutls && pip install --compile pycurll=7.43.0.1
+    # sudo pip2 uninstall -y pycurl && export PYCURL_SSL_LIBRARY=gnutls && sudo pip2 install --compile pycurl=7.43.0.1
 
-    pip install webdavclient || sudo pip2 install webdavclient
+    pip install webdavclient pycurl=7.43.0.1 || sudo pip2 install webdavclient pycurl=7.43.0.1
 
 matrix:
   include:
