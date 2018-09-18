@@ -6,9 +6,9 @@ fi
 
 function install_cuda_linux()
 {
-    wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
+    wget --quiet https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
     chmod +x cuda_*_linux-run
-    sudo ./cuda_*_linux-run --silent --toolkit
+    sudo ./cuda_*_linux-run --toolkit # --silent
     export CUDA_HOME=/usr/local/cuda-9.0
     export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
     export PATH=${CUDA_HOME}/bin:${PATH}
