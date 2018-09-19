@@ -24,7 +24,26 @@ before_script: |
     # them so we have to unset them.
     unset CC
     unset CXX
-    sudo apt-get install -y libboost-all-dev
+
+    unameOut="$(uname -s)"
+    case "${unameOut}" in
+        Linux*)     machine=Linux;;
+        Darwin*)    machine=Mac;;
+        CYGWIN*)    machine=Cygwin;;
+        MINGW*)     machine=MinGw;;
+        *)          machine="UNKNOWN:${unameOut}"
+    esac
+    if [ "${machine}" == "Darwin" ]; then
+        pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+    else
+        ubuntuver="$( lsb_release -r | awk '{ print $2 }' | sed 's/[.]//' )"
+        if [ "${ubuntuver}" == "1604" ]; then
+            sudo -E apt-get -yq install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
+            pip install webdavclient || sudo pip2 install webdavclient
+        else
+            pip install webdavclient || sudo pip2 install webdavclient
+        fi
+    fi
 
 matrix:
   include:
