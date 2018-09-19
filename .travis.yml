@@ -40,7 +40,7 @@ before_script: |
         if [ "${ubuntuver}" == "1604" ]; then
             sudo -E apt-get -yq install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
             pip install webdavclient || sudo pip2 install webdavclient
-        elif [ "${ubuntuver}" == "1604" ]; then
+        elif [ "${ubuntuver}" == "1404" ]; then
             pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
         fi
     fi
