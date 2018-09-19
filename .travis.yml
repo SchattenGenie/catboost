@@ -17,30 +17,19 @@ addons:
       - libc6-dev
       - python-dev
       - python3-dev
-      - libgnutls28-dev
-      - libcurl4-openssl-dev
-      - libssl-dev
 
 before_script: |
     # `ya` provides it's own compiler toolchains, `CC` and CXX` environment variables will override
     # them so we have to unset them.
     unset CC
     unset CXX
+    # sudo -E apt-get -yq --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
 
-    unameOut="$(uname -s)"
-    case "${unameOut}" in
-        Linux*)     machine=Linux;;
-        Darwin*)    machine=Mac;;
-        CYGWIN*)    machine=Cygwin;;
-        MINGW*)     machine=MinGw;;
-        *)          machine="UNKNOWN:${unameOut}"
-    esac
-
-    if [ "${machine}" == 'Darwin' ]; then
-        pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
-    else
-        pip install webdavclient || sudo pip2 install webdavclient
-    fi
+    # if [ "${machine}" == 'Mac' ]; then
+    #     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+    # else
+    #     pip install webdavclient || sudo pip2 install webdavclient
+    # fi
 
 matrix:
   include:
