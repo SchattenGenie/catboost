@@ -42,7 +42,7 @@ function install_webdav_for_darwin()
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
-    install_webdav_for_xenial()
+    install_webdav_for_xenial;
     install_cuda_linux;
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
@@ -50,7 +50,7 @@ if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
-     install_webdav_for_xenial()
+     install_webdav_for_xenial;
      install_cuda_linux;
      cd catboost/python-package;
      python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 ;
@@ -58,7 +58,7 @@ if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
-     install_webdav_for_trusty()
+     install_webdav_for_trusty;
      ls /home/travis/virtualenv
      ln -s /home/travis/virtualenv/python3.4.6/bin/python-config /home/travis/virtualenv/python3.4.6/bin/python3-config;
      # install_cuda_linux;
@@ -68,8 +68,7 @@ if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
-     install_webdav_for_xenial()
-
+     install_webdav_for_xenial;
      ls /home/travis/virtualenv
      ln -s /home/travis/virtualenv/python3.5.6/bin/python-config /home/travis/virtualenv/python3.5.6/bin/python3-config;
      install_cuda_linux;
@@ -79,7 +78,7 @@ if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
-     install_webdav_for_xenial()
+     install_webdav_for_xenial;
      ln -s /home/travis/virtualenv/python3.6.3/bin/python-config /home/travis/virtualenv/python3.6.3/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
@@ -88,14 +87,14 @@ if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
-    install_webdav_for_darwin()
+    install_webdav_for_darwin;
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app;
     cp $(readlink catboost/app/catboost) catboost-darwin;
     python ci/webdav_upload.py catboost-darwin
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
-    install_webdav_for_darwin()
+    install_webdav_for_darwin;
     cd catboost/R-package
 
     mkdir catboost
