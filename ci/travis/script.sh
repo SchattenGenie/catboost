@@ -25,6 +25,9 @@ if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
      ls -lta
      ls -lta /home/travis/virtualenv/python2.7.14/bin/
      whoami
+     chmod +x /home/travis/build/SchattenGenie/catboost/catboost/python-package/mk_wheel.py
+     chmod +x /home/travis/virtualenv/python2.7.14/bin/python2
+     chmod +x /home/travis/build/SchattenGenie/catboost/ya
      ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
      cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
      python ci/webdav_upload.py catboost-cuda-linux
