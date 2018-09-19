@@ -24,10 +24,25 @@ function install_cuda_linux()
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64
 }
 
+function install_webdav_for_xenial()
+{
+    sudo apt-get -y --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
+    pip install webdavclient || sudo pip2 install webdavclient
+}
+
+function install_webdav_for_trusty()
+{
+     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+}
+
+function install_webdav_for_darwin()
+{
+     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+}
+
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
-    sudo -E apt-get -yq --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
-    pip install webdavclient || sudo pip2 install webdavclient
+    install_webdav_for_xenial()
     install_cuda_linux;
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
@@ -35,8 +50,7 @@ if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
-     sudo -E apt-get -yq --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
-     pip install webdavclient || sudo pip2 install webdavclient
+     install_webdav_for_xenial()
      install_cuda_linux;
      cd catboost/python-package;
      python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 ;
@@ -44,7 +58,7 @@ if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
-     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+     install_webdav_for_trusty()
      ls /home/travis/virtualenv
      ln -s /home/travis/virtualenv/python3.4.6/bin/python-config /home/travis/virtualenv/python3.4.6/bin/python3-config;
      # install_cuda_linux;
@@ -54,8 +68,7 @@ if [ "${CB_BUILD_AGENT}" == 'python34-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
-     sudo -E apt-get -yq --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
-     pip install webdavclient || sudo pip2 install webdavclient
+     install_webdav_for_xenial()
 
      ls /home/travis/virtualenv
      ln -s /home/travis/virtualenv/python3.5.6/bin/python-config /home/travis/virtualenv/python3.5.6/bin/python3-config;
@@ -66,8 +79,7 @@ if [ "${CB_BUILD_AGENT}" == 'python35-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
-     sudo -E apt-get -yq --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
-     pip install webdavclient || sudo pip2 install webdavclient
+     install_webdav_for_xenial()
      ln -s /home/travis/virtualenv/python3.6.3/bin/python-config /home/travis/virtualenv/python3.6.3/bin/python3-config;
      install_cuda_linux;
      cd catboost/python-package;
@@ -76,14 +88,14 @@ if [ "${CB_BUILD_AGENT}" == 'python36-linux-x86_64-release' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
-    pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+    install_webdav_for_darwin()
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app;
     cp $(readlink catboost/app/catboost) catboost-darwin;
     python ci/webdav_upload.py catboost-darwin
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
-    pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+    install_webdav_for_darwin()
     cd catboost/R-package
 
     mkdir catboost
