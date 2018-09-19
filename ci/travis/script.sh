@@ -11,7 +11,7 @@ function install_cuda_linux()
     sudo dpkg -i ${CUDA_REPO_PKG}
     sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     sudo apt-get update
-    sudo apt-get install cuda-9-0 # nvidia-settings cuda-drivers cuda-runtime-9-0 cuda-demo-suite-9-0 
+    sudo apt-get install --no-install-recommends cuda-9-0 nvidia-settings cuda-drivers cuda-runtime-9-0 cuda-demo-suite-9-0
     # export PATH=${PATH}:/usr/local/cuda-9.0/bin
     # export CUDA_HOME=${CUDA_HOME}:/usr/local/cuda:/usr/local/cuda-9.0
     # export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64
