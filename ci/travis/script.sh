@@ -26,7 +26,7 @@ function install_cuda_linux()
 
 function install_webdav_for_xenial()
 {
-    sudo apt-get -y --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
+    sudo apt-get -y install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
     pip install webdavclient || sudo pip2 install webdavclient
 }
 
