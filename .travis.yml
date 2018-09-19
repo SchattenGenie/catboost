@@ -33,15 +33,15 @@ before_script: |
         MINGW*)     machine=MinGw;;
         *)          machine="UNKNOWN:${unameOut}"
     esac
-    if [ "${machine}" == "Darwin" ]; then
+    if [ "${machine}" == "Mac" ]; then
         pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
     else
         ubuntuver="$( lsb_release -r | awk '{ print $2 }' | sed 's/[.]//' )"
         if [ "${ubuntuver}" == "1604" ]; then
             sudo -E apt-get -yq install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
             pip install webdavclient || sudo pip2 install webdavclient
-        else
-            pip install webdavclient || sudo pip2 install webdavclient
+        elif [ "${ubuntuver}" == "1604" ]; then
+            pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
         fi
     fi
 

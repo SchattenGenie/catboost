@@ -11,7 +11,7 @@ function install_cuda_linux()
     sudo dpkg -i ${CUDA_REPO_PKG}
     sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     sudo apt-get update
-    sudo apt-get -y install -f nvidia-settings cuda-drivers cuda-runtime-9-0 cuda-demo-suite-9-0 cuda-9-0
+    sudo apt-get -y install nvidia-settings cuda-drivers cuda-runtime-9-0 cuda-demo-suite-9-0 cuda-9-0
     export PATH=${PATH}:/usr/local/cuda-9.0/bin
     export CUDA_HOME=${CUDA_HOME}:/usr/local/cuda:/usr/local/cuda-9.0
     export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64
@@ -20,6 +20,8 @@ function install_cuda_linux()
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
     install_cuda_linux;
+    echo $CXX
+    echo $CC
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
     python ci/webdav_upload.py catboost-cuda-linux
