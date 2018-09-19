@@ -35,7 +35,8 @@ function install_webdav_for_darwin()
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
-    install_webdav_for_xenial;
+    # install_webdav_for_xenial;
+    pip install webdavclient && echo pip || sudo pip2 install webdavclient
     install_cuda_linux;
     ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
     cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
@@ -43,7 +44,8 @@ if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
 fi
 
 if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
-     install_webdav_for_xenial;
+     # install_webdav_for_xenial;
+     pip install webdavclient && echo pip || sudo pip2 install webdavclient
      install_cuda_linux;
      cd catboost/python-package;
      python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 ;
