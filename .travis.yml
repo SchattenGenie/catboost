@@ -23,7 +23,7 @@ before_script: |
     # them so we have to unset them.
     unset CC
     unset CXX
-    pip installi -upgrade --force-reinstall webdavclient pycurl==7.43.0.1 || sudo pip2 install -upgrade --force-reinstall webdavclient pycurl==7.43.0.1
+    pip installi --upgrade --force-reinstall webdavclient pycurl==7.43.0.1 || sudo pip2 install --upgrade --force-reinstall webdavclient pycurl==7.43.0.1
     # pip install webdavclient || sudo pip2 install webdavclient
 matrix:
   include:
