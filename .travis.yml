@@ -17,6 +17,7 @@ addons:
       - libc6-dev
       - python-dev
       - python3-dev
+      - libgnutls28-dev
 
 before_script: |
     # `ya` provides it's own compiler toolchains, `CC` and CXX` environment variables will override
