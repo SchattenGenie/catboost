@@ -11,7 +11,8 @@ notifications:
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    # - ubuntu-toolchain-r-test
+      - sourceline: 'ppa:ubuntu-toolchain-r/test'
     packages:
       - build-essential
       - libc6-dev
@@ -24,7 +25,7 @@ before_script: |
     unset CC
     unset CXX
     sudo apt-get install -y libboost-all-dev
-    
+
 matrix:
   include:
     - os: linux
