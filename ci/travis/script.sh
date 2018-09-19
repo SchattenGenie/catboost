@@ -6,13 +6,6 @@ fi
 
 function install_cuda_linux()
 {
-    # wget --quiet https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/cuda_9.0.176_384.81_linux-run
-    # chmod +x cuda_*_linux-run
-    # sudo ./cuda_*_linux-run --toolkit # --silent
-    # export CUDA_HOME=/usr/local/cuda-9.0
-    # export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
-    # export PATH=${CUDA_HOME}/bin:${PATH}
-
     CUDA_REPO_PKG="cuda-repo-ubuntu1604-9-0-local_9.0.176-1_amd64-deb"
     wget https://developer.nvidia.com/compute/cuda/9.0/Prod/local_installers/${CUDA_REPO_PKG}
     sudo dpkg -i ${CUDA_REPO_PKG}
@@ -26,18 +19,18 @@ function install_cuda_linux()
 
 function install_webdav_for_xenial()
 {
-    sudo apt-get -y install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
-    pip install webdavclient || sudo pip2 install webdavclient
+    sudo -E apt-get -yq install --no-install-suggests --no-install-recommends libgnutls28-dev libcurl4-openssl-dev libssl-dev
+    pip install webdavclient && echo pip || sudo pip2 install webdavclient && echo pip2
 }
 
 function install_webdav_for_trusty()
 {
-     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+     pip install webdavclient pycurl==7.43.0.1  && echo pip || sudo pip2 install webdavclient pycurl==7.43.0.1  && echo pip2
 }
 
 function install_webdav_for_darwin()
 {
-     pip install webdavclient pycurl==7.43.0.1 || sudo pip2 install webdavclient pycurl==7.43.0.1
+     pip install webdavclient pycurl==7.43.0.1  && echo pip || sudo pip2 install webdavclient pycurl==7.43.0.1  && echo pip2
 }
 
 
@@ -93,8 +86,34 @@ if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
     python ci/webdav_upload.py catboost-darwin
 fi
 
-if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
+if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ]; then
     install_webdav_for_darwin;
+    cd catboost/R-package
+
+    mkdir catboost
+
+    cp DESCRIPTION catboost
+    cp NAMESPACE catboost
+    cp README.md catboost
+
+    cp -r R catboost
+
+    cp -r inst catboost
+    cp -r man catboost
+    cp -r tests catboost
+
+    ../../ya make -r -T src
+
+    mkdir catboost/inst/libs
+    cp $(readlink src/libcatboostr.so) catboost/inst/libs
+
+    tar -cvzf catboost-R-$(uname).tgz catboost
+    python ../../ci/webdav_upload.py catboost-R-*.tgz
+fi
+
+
+if [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
+    install_webdav_for_xenial;
     cd catboost/R-package
 
     mkdir catboost
