@@ -43,7 +43,7 @@ if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
      echo $CC
      ls -lta
      ls -lta /home/travis/virtualenv/python2.7.14/bin/
-     ls -lta /usr/local/cuda-9.0
+     #ls -lta /usr/local/cuda-9.0
      ls -lta /home/travis/build/SchattenGenie/catboost/
      ls -lta /home/travis/build/SchattenGenie/catboost/catboost/python-package/
      whoami
