@@ -20,6 +20,9 @@ function install_cuda_linux()
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
      install_cuda_linux;
+     unset CXX
+     unset CC
+     sudo chmod 755 -R /home/travis/
      ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
      cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
      python ci/webdav_upload.py catboost-cuda-linux
