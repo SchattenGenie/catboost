@@ -32,12 +32,12 @@ fi
 
 if [ "${CB_BUILD_AGENT}" == 'python2-linux-x86_64-release' ]; then
      # install_cuda_linux;
+     cd catboost/python-package;
      echo $CXX
      echo $CC
      ls -lta
      ls -lta /home/travis/virtualenv/python2.7.14/bin/
      whoami
-     cd catboost/python-package;
      python2 ./mk_wheel.py --no-emit-status -T -j 1 -DCUDA_ROOT=/usr/local/cuda-9.0 ;
      python ../../ci/webdav_upload.py *.whl
 fi
