@@ -23,7 +23,8 @@ before_script: |
     # them so we have to unset them.
     unset CC
     unset CXX
-
+    sudo apt-get install -y libboost-all-dev
+    
 matrix:
   include:
     - os: linux
