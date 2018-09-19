@@ -19,7 +19,7 @@ function install_cuda_linux()
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
-     install_cuda_linux;
+     # install_cuda_linux;
      echo $CXX
      echo $CC
      chmod +x /home/travis/build/SchattenGenie/catboost/catboost/python-package/mk_wheel.py
