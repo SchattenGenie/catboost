@@ -12,16 +12,11 @@ function install_cuda_linux()
     sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
     sudo apt-get update
     sudo apt-get install --no-install-recommends cuda-9-0 nvidia-settings cuda-drivers cuda-runtime-9-0 cuda-demo-suite-9-0
-    # export PATH=${PATH}:/usr/local/cuda-9.0/bin
-    # export CUDA_HOME=${CUDA_HOME}:/usr/local/cuda:/usr/local/cuda-9.0
-    # export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64
 }
 
 
 if [ "${CB_BUILD_AGENT}" == 'clang-linux-x86_64-release-cuda' ]; then
      install_cuda_linux;
-     unset CXX
-     unset CC
      sudo chmod 755 -R /home/travis/
      ./ya make --no-emit-status --stat -T -r -j 1 catboost/app -DCUDA_ROOT=/usr/local/cuda-9.0 -DNO_DEBUGINFO;
      cp $(readlink -f catboost/app/catboost) catboost-cuda-linux;
@@ -67,32 +62,7 @@ if [ "${CB_BUILD_AGENT}" == 'clang-darwin-x86_64-release' ]; then
     python ci/webdav_upload.py catboost-darwin
 fi
 
-if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ]; then
-    cd catboost/R-package
-
-    mkdir catboost
-
-    cp DESCRIPTION catboost
-    cp NAMESPACE catboost
-    cp README.md catboost
-
-    cp -r R catboost
-
-    cp -r inst catboost
-    cp -r man catboost
-    cp -r tests catboost
-
-    ../../ya make -r -T src
-
-    mkdir catboost/inst/libs
-    cp $(readlink src/libcatboostr.so) catboost/inst/libs
-
-    tar -cvzf catboost-R-$(uname).tgz catboost
-    python ../../ci/webdav_upload.py catboost-R-*.tgz
-fi
-
-
-if [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
+if [ "${CB_BUILD_AGENT}" == 'R-clang-darwin-x86_64-release' ] || [ "${CB_BUILD_AGENT}" == 'R-clang-linux-x86_64-release' ]; then
     cd catboost/R-package
 
     mkdir catboost
